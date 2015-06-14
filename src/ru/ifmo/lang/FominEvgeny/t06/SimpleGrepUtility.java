@@ -26,15 +26,17 @@ public class SimpleGrepUtility implements Grep {
                 Grep grep = new SimpleGrepUtility(new BufferedInputStream(new FileInputStream(args[1])));
                 System.out.println(grep.findLines(args[0]));
 
+            } else if (args.length > 3) {
+                
+                System.out.println("Неизвестная команда");
+
             } else {
 
                 Grep grep = new SimpleGrepUtility(new BufferedInputStream(new FileInputStream(args[2])));
 
                 if (args[0].equals("-o")) {
                     System.out.println(grep.findParts(args[1]));
-                }
-
-                else if (args[0].equals("-v")) {
+                } else if (args[0].equals("-v")) {
                     System.out.println(grep.findInvertMatch(args[1]));
                 } else {
                     System.out.println("Неизвестная команда");
