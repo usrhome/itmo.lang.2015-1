@@ -10,14 +10,14 @@ public class OddEvenFileSplitter implements FileSplitter {
         SplitConfig config = new SplitConfig() {
 
             public String getSourceFilePath() {
-                File file1 = new File(args[0]);
+                File mainFile = new File(args[0]);
                 return args[0];
             }
 
             public String getOddLinesFilePath() {
-                File file2 = new File(args[1]);
+                File oddFile = new File(args[1]);
                 try {
-                    file2.createNewFile();
+                    oddFile.createNewFile();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -25,9 +25,9 @@ public class OddEvenFileSplitter implements FileSplitter {
             }
 
             public String getEvenLinesFilePath() {
-                File file3 = new File(args[2]);
+                File evenFile = new File(args[2]);
                 try {
-                    file3.createNewFile();
+                    evenFile.createNewFile();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -39,22 +39,22 @@ public class OddEvenFileSplitter implements FileSplitter {
 
     public void splitFile(SplitConfig config) {
         try {
-            Reader reader1 = new FileReader(config.getSourceFilePath());
-            Writer writer2 = new FileWriter(config.getOddLinesFilePath());
-            Writer writer3 = new FileWriter(config.getEvenLinesFilePath());
-            BufferedReader bufferedReader = new BufferedReader(reader1);
+            Reader mainReader = new FileReader(config.getSourceFilePath());
+            Writer oddWriter = new FileWriter(config.getOddLinesFilePath());
+            Writer evenWriter = new FileWriter(config.getEvenLinesFilePath());
+            BufferedReader bufferedReader = new BufferedReader(mainReader);
             int i = 0;
             String string = new String();
             string = config.getSourceFilePath();
             while ((string = bufferedReader.readLine()) != null) {
                 if ((i % 2) == 0)
-                    writer2.write(string + "\n");
-                else writer3.write(string + "\n");
+                    oddWriter.write(string + "\n");
+                else evenWriter.write(string + "\n");
                 i++;
             }
-            reader1.close();
-            writer2.close();
-            writer3.close();
+            mainReader.close();
+            oddWriter.close();
+            evenWriter.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
