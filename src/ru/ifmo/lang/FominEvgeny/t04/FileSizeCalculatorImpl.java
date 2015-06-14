@@ -5,18 +5,17 @@ import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 
 public class FileSizeCalculatorImpl extends SimpleFileVisitor<Path> implements FileSizeCalculator {
-    private static Long count = new Long(0);
+    private long count = 0;
 
     public FileVisitResult visitFile(Path path,
                                      BasicFileAttributes fileAttributes) {
         FileSizeCalculatorImpl fileSizeCalculator = new FileSizeCalculatorImpl();
 
         try {
-            fileSizeCalculator.count += Files.size(path);
+            count += Files.size(path);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        count = new Long(count);
 
         return FileVisitResult.CONTINUE;
 
@@ -24,14 +23,14 @@ public class FileSizeCalculatorImpl extends SimpleFileVisitor<Path> implements F
 
     public static void main(String[] args) {
         FileSizeCalculatorImpl fileCount = new FileSizeCalculatorImpl();
-        System.out.println("Size: " + fileCount.getSize(args[0], args[1]));
+        System.out.println("Size: " + fileCount.getSize("",""));
     }
 
     public long getSize(String pathToDir, String fileTemplate) {
 
-        Path pathSource = Paths.get(pathToDir + "/" + fileTemplate);
+        Path pathSource = Paths.get("/home/wolfram/smth");
         try {
-            Files.walkFileTree(pathSource, new FileSizeCalculatorImpl());
+            Files.walkFileTree(pathSource, this);
         } catch (IOException e) {
             e.printStackTrace();
         }
